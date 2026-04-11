@@ -8,7 +8,7 @@ public class Problem11 {
 
     public static void main(String[] args) {
         String text = "racecar";
-        System.out.println("Sample input: " + text);
-        // Expected output example: true
+        StringBuilder sb = new StringBuilder(text);
+        System.out.println("Is it palindrome? "  + sb.reverse().toString().equals(text));
     }
 }
