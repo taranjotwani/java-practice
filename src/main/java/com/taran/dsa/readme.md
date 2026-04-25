@@ -3,7 +3,7 @@
 
 ## 📋 Problem List
 
-### 🔢 Arrays (1–10)
+### 🔢 Arrays (1–14)
 
 | # | Problem | Difficulty |
 |---|---------|------------|
@@ -17,6 +17,11 @@
 | 8 | Maximum subarray sum — Kadane's Algorithm | Medium |
 | 9 | Find duplicates in an array | Medium |
 | 10 | Find the top K largest elements in an array | Medium |
+| 11 | 3Sum — find all unique triplets that sum to zero | Medium |
+| 12 | Container With Most Water | Medium |
+| 13 | Product of Array Except Self | Medium |
+| 14 | Jump Game | Medium |
+
 
 ---
 
@@ -32,8 +37,6 @@
 | 16 | Count and say — generate the nth term | Medium |
 | 17 | Longest substring without repeating characters | Medium |
 | 18 | Longest palindromic substring | Medium |
-
----
 
 ### 🔗 Linked Lists (19–24)
 
@@ -109,14 +112,14 @@ java com.taran.dsa.arrays.Problem01
 
 | Topic | Total | Solved |
 |-------|-------|--------|
-| Arrays | 10 | 0 |
+| Arrays | 14 | 0 |
 | Strings | 8 | 0 |
 | Linked Lists | 6 | 0 |
 | Stack & Queue | 5 | 0 |
 | Trees | 6 | 0 |
 | Searching & Sorting | 3 | 0 |
 | Dynamic Programming | 2 | 0 |
-| **Total** | **40** | **0** |
+| **Total** | **44** | **0** |
 
 ---
 

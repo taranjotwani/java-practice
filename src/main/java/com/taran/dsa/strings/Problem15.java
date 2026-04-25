@@ -12,7 +12,7 @@ public class Problem15 {
     public static void main(String[] args) {
     String pattern = "Java Backend Developer Practice" ;   
     String longestWord = Arrays.stream(pattern.split(" "))
-        .max(Comparator.comparingInt(String::length)) .orElse("");;
+        .max(Comparator.comparingInt(String::length)).orElse("");
     System.out.println("Longest word is: " + longestWord);
     }
 }
