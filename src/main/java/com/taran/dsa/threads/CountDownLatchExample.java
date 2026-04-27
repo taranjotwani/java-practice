@@ -42,9 +42,12 @@ public class CountDownLatchExample {
      */
     private static class Task implements Runnable {
         // TODO: Add taskId and latch fields
+        CountDownLatch latch;
+        private int taskId;
 
         public Task(int taskId, CountDownLatch latch) {
-            // TODO: Initialize fields
+            this.taskId = taskId;
+            this.latch = latch;
         }
 
         @Override
@@ -52,12 +55,15 @@ public class CountDownLatchExample {
             try {
                 // TODO: Implement
                 // 1. Print "Task-{taskId} started"
+                    System.out.println("Task-" + taskId + " started");
                 // 2. Sleep for random duration (500-2500ms): (long)(Math.random() * 2000) + 500
+                    Thread.sleep((long) (Math.random() * 2000) + 500);
                 // 3. Print "Task-{taskId} completed"
+                    System.out.println("Task-" + taskId + " completed");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } finally {
-                // TODO: Call latch.countDown() to decrement count
+                latch.countDown(); // Ensure latch is decremented even if task fails
             }
         }
     }
@@ -68,13 +74,25 @@ public class CountDownLatchExample {
     public static void main(String[] args) throws InterruptedException {
         // TODO: Implement
         // 1. Define numTasks = 5
+        int numTasks = 5;
         // 2. Create CountDownLatch with numTasks
+        CountDownLatch latch = new CountDownLatch(numTasks);
         // 3. Create ExecutorService with 3 threads (newFixedThreadPool(3))
+        ExecutorService executor = Executors.newFixedThreadPool(3); 
         // 4. Record start time
+        long startTime = System.currentTimeMillis();
         // 5. For each task, execute new Task(i, latch) using executor
+        for (int i = 0; i < numTasks; i++) {
+            executor.submit(new Task(i, latch));
+        }
         // 6. Print "Main thread waiting for all tasks..."
+        System.out.println("Main thread waiting for all tasks...");
         // 7. Call latch.await() to block until all tasks complete
+        latch.await();
         // 8. Calculate and print duration
+        long duration = System.currentTimeMillis() - startTime;
         // 9. Shutdown executor
+        executor.shutdown();
+        System.out.println("All tasks completed in " + duration + " ms");
     }
 }

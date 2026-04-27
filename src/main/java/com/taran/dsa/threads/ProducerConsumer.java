@@ -1,5 +1,11 @@
 package com.taran.dsa.threads;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 /**
  * PROBLEM: Producer-Consumer Pattern using BlockingQueue
  *
@@ -29,9 +35,10 @@ package com.taran.dsa.threads;
  */
 public class ProducerConsumer {
     // TODO: Declare BlockingQueue
+    BlockingQueue<Integer> queue;
 
     public ProducerConsumer(int capacity) {
-        // TODO: Initialize BlockingQueue with given capacity
+        queue = new ArrayBlockingQueue<>(capacity);
     }
 
     /**
@@ -42,8 +49,9 @@ public class ProducerConsumer {
      * @throws InterruptedException if thread is interrupted
      */
     public void produce(String item) throws InterruptedException {
-        // TODO: Implement using queue.put()
-        // Print "Produced: " + item
+        queue.put(Integer.parseInt(item));
+        // Print "Produced: " + item after adding to queue 
+        System.out.println("Produced: " + item);
     }
 
     /**
@@ -54,8 +62,9 @@ public class ProducerConsumer {
      * @throws InterruptedException if thread is interrupted
      */
     public String consume() throws InterruptedException {
-        // TODO: Implement using queue.take()
-        // Print "Consumed: " + item before returning
+        int item = queue.take();
+        // Print "Consumed: " + item after removing from queue
+        System.out.println("Consumed: " + item);
         return null;
     }
 
@@ -66,11 +75,56 @@ public class ProducerConsumer {
     public static void main(String[] args) throws InterruptedException {
         // TODO: Implement
         // 1. Create ProducerConsumer with capacity 5
+        ProducerConsumer pc = new ProducerConsumer(5);
         // 2. Create producer1: produces 5 items with 100ms delay
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        executor.submit(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.produce(String.valueOf(i));
+                    Thread.sleep(100); // 100ms delay
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
         // 3. Create producer2: produces 5 items (indices 5-9) with 150ms delay
+        executor.submit(() -> {
+            try {
+                for (int i = 5; i < 9; i++) {
+                    pc.produce(String.valueOf(i));
+                    Thread.sleep(100); // 100ms delay
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
         // 4. Create consumer1: consumes 5 items with 200ms delay
+        executor.submit(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.consume();
+                    Thread.sleep(200); // 200ms delay
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
         // 5. Create consumer2: consumes 5 items with 180ms delay
+        executor.submit(() -> {
+            try {
+                for (int i = 5; i < 9; i++) {
+                    pc.consume();
+                    Thread.sleep(180); // 180ms delay
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
         // 6. Start all threads
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.MINUTES);
         // 7. Join all threads and print "Done!"
+        System.out.println("Done!");
     }
 }

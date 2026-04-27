@@ -1,5 +1,8 @@
 package com.taran.dsa.threads;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * PROBLEM: Thread-Safe Caching using ConcurrentHashMap
  *
@@ -30,6 +33,9 @@ public class ConcurrentCacheExample {
     // TODO: Declare ConcurrentHashMap cache
     // TODO: Declare AtomicInteger hitCount
     // TODO: Declare AtomicInteger missCount
+    ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
+    AtomicInteger hitCount = new AtomicInteger(0);
+    AtomicInteger missCount = new AtomicInteger(0);
 
     /**
      * Retrieves a value from cache. Increments hit count if found, miss count if not.

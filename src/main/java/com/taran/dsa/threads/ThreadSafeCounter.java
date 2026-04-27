@@ -1,5 +1,10 @@
 package com.taran.dsa.threads;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * PROBLEM: Thread-Safe Counter using AtomicInteger
  *
@@ -13,7 +18,7 @@ package com.taran.dsa.threads;
  * <ul>
  *   <li>Implement increment() - returns new value after incrementing</li>
  *   <li>Implement decrement() - returns new value after decrementing</li>
- *   <li>Implement get() - returns current value</li>
+ *   <li>Implement get() - returns current value</li> 
  *   <li>Implement reset() - sets counter to zero</li>
  *   <li>Test with 10 threads, each incrementing 1000 times</li>
  *   <li>Verify final count matches expected value (10,000)</li>
@@ -28,6 +33,7 @@ package com.taran.dsa.threads;
  */
 public class ThreadSafeCounter {
     // TODO: Declare AtomicInteger counter initialized to 0
+    AtomicInteger counter = new AtomicInteger(0);
 
     /**
      * Increments the counter and returns the new value.
@@ -35,8 +41,7 @@ public class ThreadSafeCounter {
      * @return the new value after incrementing
      */
     public int increment() {
-        // TODO: Implement
-        return 0;
+        return counter.incrementAndGet();
     }
 
     /**
@@ -45,8 +50,7 @@ public class ThreadSafeCounter {
      * @return the new value after decrementing
      */
     public int decrement() {
-        // TODO: Implement
-        return 0;
+        return counter.decrementAndGet();
     }
 
     /**
@@ -55,15 +59,14 @@ public class ThreadSafeCounter {
      * @return current counter value
      */
     public int get() {
-        // TODO: Implement
-        return 0;
+       return counter.get();
     }
 
     /**
      * Resets the counter to zero.
      */
     public void reset() {
-        // TODO: Implement
+        counter = new AtomicInteger(0);
     }
 
     /**
@@ -73,9 +76,19 @@ public class ThreadSafeCounter {
     public static void main(String[] args) throws InterruptedException {
         // TODO: Implement
         // 1. Create a ThreadSafeCounter instance
+        ThreadSafeCounter counter = new ThreadSafeCounter();
         // 2. Create 10 threads
-        // 3. Each thread increments 1000 times
-        // 4. Wait for all threads to finish (use join())
-        // 5. Print final count and verify it matches expected value
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        for (int i = 0; i < 10; i++) {
+            executor.submit(() -> {
+                counter.increment();
+            });
+        }
+
+        executor.shutdown();
+        executor.awaitTermination(1, TimeUnit.MINUTES);
+        // 3. Verify final count matches expected value (10,000)
+        System.out.println("Final Count: " + counter.get());
     }
 }
